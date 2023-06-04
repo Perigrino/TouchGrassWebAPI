@@ -57,7 +57,6 @@ public class MovieController : ControllerBase
         {
             return NotFound();
         }
-
         var response = movie.MapsToResponse();
         return Ok(response);
 
