@@ -110,23 +110,24 @@ public class MoviesRepository: IMovieRepository
     {
         var connection = await _connectionFactory.CreateConnectionAsync();
         var transaction = connection.BeginTransaction();
-        await connection.ExecuteAsync(
-            new CommandDefinition("""
-            delete genre from movies where movieid = @Id
-            """, new { movieid = movie.Id }));
-
+        
+        await connection.ExecuteAsync(new CommandDefinition("""
+            delete from genres where movieid = @id
+            """, new { id = movie.Id }));
+        
         foreach (var genre in movie.Genres)
         {
             await connection.ExecuteAsync(new CommandDefinition("""
-            insert into genre (movieid, name)
-            values (@movieid, @Name)
-            """, new { movieId = movie.Id, Name = genre }));
+                    insert into genres (movieId, name) 
+                    values (@MovieId, @Name)
+                    """, new { MovieId = movie.Id, Name = genre }));
         }
-
+        
         var result = await connection.ExecuteAsync(new CommandDefinition("""
-        update movie set set slug = @Slug, title = @Title, yearofrelease = @YearOfRelease
-        where id = @id
-        """, movie));
+            update movies set slug = @Slug, title = @Title, yearofrelease = @YearOfRelease 
+            where id = @Id
+            """, movie));
+        
         transaction.Commit();
         return result > 0;
     }
