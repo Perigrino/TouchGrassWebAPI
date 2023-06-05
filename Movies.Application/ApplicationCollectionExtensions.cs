@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Movies.Application.Database;
 using Movies.Application.Interface;
@@ -12,7 +13,7 @@ public static class ApplicationCollectionExtensions
     {
         service.AddSingleton<IMovieRepository, MoviesRepository>();
         service.AddSingleton<IMovieService, MoviesService>();
-        //service.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+        service.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
         return service;
     }
     
