@@ -15,39 +15,39 @@ public class MoviesService : IMovieService
         _validator = validator;
     }
 
-    public async Task<bool> CreateAsync(Movie movie)
+    public async Task<bool> CreateAsync(Movie movie, CancellationToken token = default)
     {
-        await _validator.ValidateAndThrowAsync(movie);
-        return await _movieRepository.CreateMovie(movie);
+        await _validator.ValidateAndThrowAsync(movie, cancellationToken: token);
+        return await _movieRepository.CreateMovie(movie, token);
     }
 
-    public async Task<Movie?> GetByIdAsync(Guid id)
+    public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken token = default)
     {
-        return await _movieRepository.GetMovieById(id);
+        return await _movieRepository.GetMovieById(id, token);
     }
 
-    public async Task<Movie?> GetBySlugAsync(string slug)
+    public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken token = default)
     {
-        return await _movieRepository.GetMovieBySlug(slug);
+        return await _movieRepository.GetMovieBySlug(slug, token);
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync()
+    public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken token = default)
     {
-        return await _movieRepository.GetMoviesAsync();
+        return await _movieRepository.GetMoviesAsync(token);
     }
 
-    public async Task<Movie?> UpdateAsync(Movie movie)
+    public async Task<Movie?> UpdateAsync(Movie movie, CancellationToken token = default)
     {
-        await _validator.ValidateAndThrowAsync (movie);
+        await _validator.ValidateAndThrowAsync (movie, cancellationToken: token);
         var movieExists = await _movieRepository.MovieExist(movie.Id);
         if (!movieExists)
             return null;
-        await _movieRepository.UpdateMovie(movie);
+        await _movieRepository.UpdateMovie(movie, token);
         return movie;
     }
 
-    public async Task<bool> DeleteByIdAsync(Guid id)
+    public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
     {
-        return await _movieRepository.DeleteMovie(id);
+        return await _movieRepository.DeleteMovie(id, token);
     }
 }
