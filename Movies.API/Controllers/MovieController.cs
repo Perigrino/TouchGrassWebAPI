@@ -5,7 +5,7 @@ using Movies.API.Mapping;
 using Movies.Application.Service;
 
 namespace Movies.API.Controllers;
-[Authorize]
+
 [ApiController]
 public class MovieController : ControllerBase
 {
@@ -37,6 +37,7 @@ public class MovieController : ControllerBase
     }
 
     // POST: api/Movie
+    [Authorize (AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(APIEndpoints.Movies.Create)]
     public async Task<IActionResult> CreateMovie([FromBody] CreateMovieRequest request, CancellationToken token)
     {
@@ -47,6 +48,7 @@ public class MovieController : ControllerBase
     }
 
     // PUT: api/Movie/5
+    [Authorize (AuthConstants.TrustedMemberPolicyName)]
     [HttpPut(APIEndpoints.Movies.Update)]
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateMovieRequest request,
         CancellationToken token)
@@ -63,6 +65,7 @@ public class MovieController : ControllerBase
     }
 
     // DELETE: api/Movie/5
+    [Authorize (AuthConstants.AdminUserPolicyName)]
     [HttpDelete(APIEndpoints.Movies.Delete)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken token)
     {
