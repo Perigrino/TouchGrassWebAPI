@@ -11,11 +11,10 @@ namespace Identity.API.Controllers;
 public class IdentityController : ControllerBase
 {
     private const string TokenSecret = "ForTheLoveOfGodStoreAndLoadThisSecurely";
-    private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(8);
+    private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(48);
 
     [HttpPost("token")]
-    public IActionResult GenerateToken(
-        [FromBody]TokenGenerationRequest request)
+    public IActionResult GenerateToken([FromBody]TokenGenerationRequest request)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(TokenSecret);

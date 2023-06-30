@@ -14,10 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Movie.Contracts\Movie.Contracts.csproj" />
       <ProjectReference Include="..\Movies.Application\Movies.Application.csproj" />
     </ItemGroup>
