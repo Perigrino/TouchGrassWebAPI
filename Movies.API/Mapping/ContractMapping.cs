@@ -1,5 +1,6 @@
 using Movie.Contracts.Requests;
 using Movie.Contracts.Response;
+using Movies.Application.Model;
 
 namespace Movies.API.Mapping;
 
@@ -11,6 +12,8 @@ public static class ContractMapping
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
+            Rating = request.Rating,
+            UserRating = request.UserRating,
             YearOfRelease = request.YearOfRelease,
             Genres = request.Genres.ToList()
         };
@@ -22,6 +25,8 @@ public static class ContractMapping
         {
             Id = movie.Id,
             Title = movie.Title,
+            Rating = movie.Rating,
+            UserRating = movie.UserRating,
             Slug = movie.Slug,
             YearOfRelease = movie.YearOfRelease,
             Genres = movie.Genres.ToList()
@@ -44,7 +49,19 @@ public static class ContractMapping
             Id = Id,
             Title = request.Title,
             YearOfRelease = request.YearOfRelease,
+            Rating = request.Rating,
+            UserRating = request.UserRating,
             Genres = request.Genres.ToList()
         };
+    }
+    
+    public static IEnumerable<MovieRatingResponse> MapToResponse(this IEnumerable<MovieRating> ratings)
+    {
+        return ratings.Select(x => new MovieRatingResponse
+        {
+            Rating = x.Rating,
+            Slug = x.Slug,
+            MovieId = x.MovieId
+        });
     }
 }
